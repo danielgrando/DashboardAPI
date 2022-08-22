@@ -1,0 +1,6 @@
+interface IDashboardDTO {
+
+}
+
+
+export { IDashboardDTO }
