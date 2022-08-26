@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import CampusController from './Controllers/CampusController'
+import CoursesController from './Controllers/CoursesController'
 import DashboardController from './Controllers/DashboardController'
 import multerCSV from './utils/multerCSV'
 
@@ -17,6 +18,9 @@ dashboardRouter.get('/', (req, res) => DashboardController.getBasicData(req, res
 
 const campusRouter = createRoute('/v1/campus')
 campusRouter.get('/courses', (req, res) => CampusController.getCampusCountCourses(req, res))
+
+const coursesRouter = createRoute('/v1/courses')
+coursesRouter.get('/students', (req, res) => CoursesController.getCoursesAndCountStudents(req, res))
 
 
 export default router
