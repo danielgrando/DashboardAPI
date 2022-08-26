@@ -11,5 +11,9 @@ export default class CoursesRepository implements ICoursesRepository {
         const { nomeCurso, campusId, attributeId } = course
         await prisma.courses.create({ data: { name: nomeCurso, campusId, attributeId } })
     }
+
+    async getCountAll(): Promise<any> {
+        return await prisma.courses.count()
+    }
 }
 

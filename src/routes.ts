@@ -10,8 +10,9 @@ const createRoute = (path: any): Router => {
     return newRouter
 }
 
-const dashboardRouter = createRoute('/v1/data')
+const dashboardRouter = createRoute('/v1')
 dashboardRouter.post('/', multerCSV.single('file'), (req, res) => DashboardController.save(req, res))
+dashboardRouter.get('/', (req, res) => DashboardController.getBasicData(req, res))
 
 
 export default router

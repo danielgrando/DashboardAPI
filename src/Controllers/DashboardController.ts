@@ -15,7 +15,6 @@ class DashboardController {
 
             const dataAtt = this.formatterPayload(data) as any
 
-            const dashboardRepository = new DashboardRepository()
             const campusRepository = new CampusRepository()
             const attributesRepository = new AttributesRepository()
             const coursesRepository = new CoursesRepository()
@@ -27,6 +26,22 @@ class DashboardController {
             await this.saveStudents(dataAtt, studentsRepository, coursesRepository)
 
             return resourceCreatedSuccess(res)
+        } catch (error) {
+            errorInRouter(req, res, error)
+        }
+    }
+
+    async getBasicData(req: Request, res: Response) {
+        try {
+            const campusRepository = new CampusRepository()
+            const coursesRepository = new CoursesRepository()
+            const studentsRepository = new StudentsRepository()
+
+            const getCampusResponse = await campusRepository.getCountAll()
+            const getCoursesResponse = await coursesRepository.getCountAll()
+            const getStudentsResponse = await studentsRepository.getCountAll()
+
+            return res.json({ allCampus: getCampusResponse, allCourses: getCoursesResponse, allStudents: getStudentsResponse })
         } catch (error) {
             errorInRouter(req, res, error)
         }
@@ -151,7 +166,7 @@ class DashboardController {
             // })
 
             const students = data.map((item: { aluno: string; }) => item.aluno)
-            const allStudents = await studentsRepository.index(students)
+            const allStudents = await studentsRepository.indexByNames(students)
 
             for (const student of data) {
                 const findStudent = allStudents.find((studentSaved: { name: any; }) => studentSaved.name === student.aluno)
@@ -194,6 +209,7 @@ class DashboardController {
             throw new Error(error)
         }
     }
+
 }
 
 
