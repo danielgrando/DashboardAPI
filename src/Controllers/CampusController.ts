@@ -1,15 +1,15 @@
 import { Request, Response } from 'express'
-import DashboardRepository from '../Repositories/Implementations/DashboardRepository';
-import { formatCSVToObject } from '../utils/utilsCSV';
+import CampusRepository from '../Repositories/Implementations/CampusRepository';
 import { errorInRouter, resourceCreatedSuccess, resourceDeletedSuccess, resourceUpdatedSuccess } from "../utils/utilsRequest";
 
 
 class CampusController {
-    async index(req: Request, res: Response) {
+    async getCampusCountCourses(req: Request, res: Response) {
         try {
+            const campusRepository = new CampusRepository()
+            const getCampusCountCoursesResponse = await campusRepository.getCoursesFromCampus()
 
-
-            return res.json()
+            return res.json(getCampusCountCoursesResponse)
         } catch (error) {
             errorInRouter(req, res, error)
         }

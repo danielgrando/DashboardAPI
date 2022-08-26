@@ -5,7 +5,7 @@ import CoursesRepository from '../Repositories/Implementations/CoursesRepository
 import DashboardRepository from '../Repositories/Implementations/DashboardRepository';
 import StudentsRepository from '../Repositories/Implementations/StudentsRepository';
 import { formatCSVToObject } from '../utils/utilsCSV';
-import { errorInRouter, resourceCreatedSuccess, resourceDeletedSuccess, resourceUpdatedSuccess } from "../utils/utilsRequest";
+import { errorInRouter, resourceCreatedSuccess } from "../utils/utilsRequest";
 
 class DashboardController {
     async save(req: Request, res: Response) {
