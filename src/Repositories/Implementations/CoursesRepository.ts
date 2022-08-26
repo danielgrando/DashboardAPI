@@ -8,8 +8,8 @@ export default class CoursesRepository implements ICoursesRepository {
     }
 
     async save(course: any): Promise<any> {
-        const { name, campusId, attributeId } = course
-        await prisma.courses.create({ data: { name, campusId, attributeId } })
+        const { nomeCurso, campusId, attributeId } = course
+        await prisma.courses.create({ data: { name: nomeCurso, campusId, attributeId } })
     }
 }
 
