@@ -140,27 +140,30 @@ class DashboardController {
     private async saveStudents(data: any, studentsRepository: any, coursesRepository: any) {
         try {
 
-            const students: any[] = []
-            data.map((item: { aluno: string }) => {
-                const findStudent = students.find(student => student.aluno === item.aluno)
-                if (!students.length || !findStudent) {
-                    students.push(item)
-                }
-            })
+            //TODO Avaliar se necessário adicionar alguma validação
 
-            for (const student of students) {
-                const getCourse = await coursesRepository.index({ name: student.nomeCurso, attributeId: student.attributeId })
+            // const students: any[] = []
+            // data.map((item: { aluno: string }) => {
+            //     const findStudent = students.find(student => student.aluno === item.aluno)
+            //     if (!students.length || !findStudent) {
+            //         students.push(item)
+            //     }
+            // })
 
-                if (getCourse) {
-                    student.courseId = getCourse.id
-                    const dataInicioSplit = student.dataInicio.split('/')
-                    const dataFimSplit = student.dataFimPrevisto.split('/')
+            const students = data.map((item: { aluno: string; }) => item.aluno)
+            const allStudents = await studentsRepository.index(students)
 
-                    console.log(student.dataInicio)
-                    student.dataInicio = new Date(dataInicioSplit[2], dataInicioSplit[1], dataInicioSplit[0])
-                    student.dataFimPrevisto = new Date(dataFimSplit[2], dataFimSplit[1], dataFimSplit[0])
+            for (const student of data) {
+                const findStudent = allStudents.find((studentSaved: { name: any; }) => studentSaved.name === student.aluno)
+                if (!findStudent) {
+                    const getCourse = await coursesRepository.index({ name: student.nomeCurso, attributeId: student.attributeId })
 
-                    await studentsRepository.save(student)
+                    if (getCourse) {
+                        student.courseId = getCourse.id
+                        this.formatDate(student, student.dataInicio, student.dataFimPrevisto)
+
+                        await studentsRepository.save(student)
+                    }
                 }
             }
 
@@ -174,6 +177,19 @@ class DashboardController {
             data = [...new Set(data)];
 
             return data
+        } catch (error: any) {
+            throw new Error(error)
+        }
+    }
+
+    private formatDate(student: any, dataInicio: any, dataFimPrevisto: any) {
+        try {
+            const dataInicioSplit = dataInicio.split('/')
+            const dataFimSplit = dataFimPrevisto.split('/')
+
+            student.dataInicio = new Date(dataInicioSplit[2], dataInicioSplit[1], dataInicioSplit[0])
+            student.dataFimPrevisto = new Date(dataFimSplit[2], dataFimSplit[1], dataFimSplit[0])
+
         } catch (error: any) {
             throw new Error(error)
         }
