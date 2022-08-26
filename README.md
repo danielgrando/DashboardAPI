@@ -17,4 +17,6 @@
 ## How to run the application:
 
 1) npm install
-2) npm run dev
+2) create file .env
+3) configure your database variables in .env
+4) npm run dev
