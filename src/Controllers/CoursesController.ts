@@ -20,26 +20,29 @@ class CoursesController {
             const coursesRepository = new CoursesRepository()
 
             const responseByModality: any = {
-                "EDUCAÇÃO PRESENCIAL": 0,
-                "EDUCAÇÃO A DISTÂNCIA": 0,
-                presencial: [],
-                ead: []
+                "EDUCAÇÃO PRESENCIAL": {
+                    count: 0,
+                    courses: []
+                },
+                "EDUCAÇÃO A DISTÂNCIA": {
+                    count: 0,
+                    courses: []
+                }
             }
 
             const getByModalitiesResponse = await coursesRepository.getByModalities()
 
             for (const modality of ['EDUCAÇÃO PRESENCIAL', 'EDUCAÇÃO A DISTÂNCIA']) {
-                const courses = getByModalitiesResponse.filter((course: { attribute: { modality: string; }; }) => course.attribute.modality === modality)
+                let courses = getByModalitiesResponse.filter((course: { attribute: { modality: string; }; }) => course.attribute.modality === modality)
+                courses = [...new Set(courses.map((course: { name: string; }) => course.name))]
 
                 if (modality === 'EDUCAÇÃO PRESENCIAL') {
-                    const faceToFaceCourses = [...new Set(courses.map((course: { name: string; }) => course.name))]
-                    responseByModality.presencial = faceToFaceCourses
+                    responseByModality['EDUCAÇÃO PRESENCIAL'].courses = courses
                 } else {
-                    let eadCourses = [...new Set(courses.map((course: { name: string; }) => course.name))]
-                    responseByModality.ead = eadCourses
+                    responseByModality['EDUCAÇÃO A DISTÂNCIA'].courses = courses
                 }
 
-                responseByModality[modality] = courses.length
+                responseByModality[modality].count = courses.length
             }
 
             return res.json(responseByModality)
