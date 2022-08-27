@@ -13,7 +13,7 @@
 + **GET** -> (/v1) -> To Get All counts about resources (campus, courses and students)
 + **GET** -> (/v1/campus/courses) -> To Get how many courses is present in all campus
 + **GET** -> (/v1/courses/students) -> To Get how many students is present in all courses
-+ **GET** -> (/v1/students/date?start=X&end=Y) -> To Get students by date start and expected end of course
++ **GET** -> (/v1/students/date?start=X&end=Y) -> To Get how many students by date start and expected end of course
 
 ## How to run the application:
 
