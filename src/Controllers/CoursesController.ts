@@ -28,16 +28,17 @@ class CoursesController {
 
             const getByModalitiesResponse = await coursesRepository.getByModalities()
 
-            let faceToFaceCourses = getByModalitiesResponse.filter((course: { attribute: { modality: string; }; }) => course.attribute.modality === "EDUCAÇÃO PRESENCIAL")
-            faceToFaceCourses = [...new Set(faceToFaceCourses.map((course: { name: any; }) => course.name))]
-            responseByModality.presencial = faceToFaceCourses
-
-            let eadCourses = getByModalitiesResponse.filter((course: { attribute: { modality: string; }; }) => course.attribute.modality === "EDUCAÇÃO A DISTÂNCIA")
-            eadCourses = [...new Set(eadCourses.map((course: { name: any; }) => course.name))]
-            responseByModality.ead = eadCourses
-
             for (const modality of ['EDUCAÇÃO PRESENCIAL', 'EDUCAÇÃO A DISTÂNCIA']) {
                 const courses = getByModalitiesResponse.filter((course: { attribute: { modality: string; }; }) => course.attribute.modality === modality)
+
+                if (modality === 'EDUCAÇÃO PRESENCIAL') {
+                    const faceToFaceCourses = [...new Set(courses.map((course: { name: string; }) => course.name))]
+                    responseByModality.presencial = faceToFaceCourses
+                } else {
+                    let eadCourses = [...new Set(courses.map((course: { name: string; }) => course.name))]
+                    responseByModality.ead = eadCourses
+                }
+
                 responseByModality[modality] = courses.length
             }
 
