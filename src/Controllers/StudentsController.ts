@@ -1,10 +1,9 @@
 import { Request, Response } from 'express'
 import StudentsRepository from '../Repositories/Implementations/StudentsRepository';
-import { errorInRouter, resourceCreatedSuccess, resourceDeletedSuccess, resourceUpdatedSuccess } from "../utils/utilsRequest";
-
+import { errorInRouter } from "../utils/utilsRequest";
 
 class StudentsController {
-    async getStudentsByDateStartAndEnd(req: Request, res: Response) {
+    async getByDateStartAndEnd(req: Request, res: Response): Promise<any[number]> {
         try {
             const studentsRepository = new StudentsRepository()
 
@@ -17,10 +16,27 @@ class StudentsController {
             const endPayload = new Date(end)
             const formatterEndPayload = endPayload?.toISOString()
 
-            const getStudentsByDateResponse = await studentsRepository.getStudentsByDateStartAndEnd(formatterStartPayload, formatterEndPayload)
+            const getStudentsByDateResponse = await studentsRepository.getByDateStartAndEnd(formatterStartPayload, formatterEndPayload)
 
 
             return res.json(getStudentsByDateResponse)
+        } catch (error) {
+            errorInRouter(req, res, error)
+        }
+    }
+
+    async getByStatus(req: Request, res: Response): Promise<any[number]> {
+        try {
+            const studentsRepository = new StudentsRepository()
+
+            const { status }: any = req.query
+
+            if (status) {
+                const getStudentsByStatus = await studentsRepository.getByStatus(status.toUpperCase())
+
+                return res.json(getStudentsByStatus)
+            }
+
         } catch (error) {
             errorInRouter(req, res, error)
         }

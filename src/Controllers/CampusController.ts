@@ -4,7 +4,7 @@ import { errorInRouter, resourceCreatedSuccess, resourceDeletedSuccess, resource
 
 
 class CampusController {
-    async getCampusCountCourses(req: Request, res: Response) {
+    async getCampusCountCourses(req: Request, res: Response): Promise<any[number]> {
         try {
             const campusRepository = new CampusRepository()
             const getCampusCountCoursesResponse = await campusRepository.getCoursesFromCampus()

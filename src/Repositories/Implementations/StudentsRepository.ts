@@ -15,19 +15,21 @@ export default class StudentsRepository implements IStudentsRepository {
         return await prisma.students.count()
     }
 
-    async getStudentsByDateStartAndEnd(start: any, end: any): Promise<any> {
-        if (start) {
-            return await prisma.students.count({
-                where: {
-                    start: {
-                        gte: start,
-                    },
-                    end: {
-                        lte: end
-                    }
+    async getByDateStartAndEnd(start: any, end: any): Promise<any> {
+        return await prisma.students.count({
+            where: {
+                start: {
+                    gte: start,
+                },
+                end: {
+                    lte: end
                 }
-            })
-        }
+            }
+        })
+    }
+
+    async getByStatus(status: string): Promise<any> {
+        return await prisma.students.count({ where: { status } })
     }
 }
 

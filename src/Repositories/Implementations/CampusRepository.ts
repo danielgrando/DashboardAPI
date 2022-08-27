@@ -14,7 +14,7 @@ export default class CampusRepository implements ICampusRepository {
         return await prisma.campus.findFirst({ where: { name: campus } })
     }
 
-    async getCountAll(): Promise<any> {
+    async getCountAll(): Promise<any[number]> {
         return await prisma.campus.count()
     }
 

@@ -25,8 +25,8 @@ const coursesRouter = createRoute('/v1/courses')
 coursesRouter.get('/students', (req, res) => CoursesController.getCoursesAndCountStudents(req, res))
 
 const studentsRouter = createRoute('/v1/students')
-studentsRouter.get('/date', validateStudents.validateDate, (req, res) => StudentsController.getStudentsByDateStartAndEnd(req, res))
-
+studentsRouter.get('/date', validateStudents.validateDate, (req, res) => StudentsController.getByDateStartAndEnd(req, res))
+studentsRouter.get('/status', (req, res) => StudentsController.getByStatus(req, res))
 
 
 export default router

@@ -12,11 +12,11 @@ export default class CoursesRepository implements ICoursesRepository {
         await prisma.courses.create({ data: { name: nomeCurso, campusId, attributeId } })
     }
 
-    async getCountAll(): Promise<any> {
+    async getCountAll(): Promise<any[number]> {
         return await prisma.courses.count()
     }
 
-    async getAndCountStudents(): Promise<any> {
+    async getAndCountStudents(): Promise<any[number]> {
         return await prisma.courses.findMany({
             include: {
                 _count: {
