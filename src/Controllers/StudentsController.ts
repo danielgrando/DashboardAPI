@@ -29,14 +29,20 @@ class StudentsController {
         try {
             const studentsRepository = new StudentsRepository()
 
-            const { status }: any = req.query
-
-            if (status) {
+            const responseByStatus: any = {
+                em_curso: 0,
+                transf_ext: 0,
+                desligado: 0,
+                concluída: 0,
+                reprovada: 0,
+                abandono: 0
+            }
+            for (const status of ['em_curso', 'transf_ext', 'desligado', 'concluída', 'reprovada', 'abandono']) {
                 const getStudentsByStatus = await studentsRepository.getByStatus(status.toUpperCase())
-
-                return res.json(getStudentsByStatus)
+                responseByStatus[status] = getStudentsByStatus
             }
 
+            return res.json(responseByStatus)
         } catch (error) {
             errorInRouter(req, res, error)
         }
