@@ -22,11 +22,11 @@ const campusRouter = createRoute('/v1/campus')
 campusRouter.get('/courses', (req, res) => CampusController.getCampusCountCourses(req, res))
 
 const coursesRouter = createRoute('/v1/courses')
-coursesRouter.get('/students', (req, res) => CoursesController.getCoursesAndCountStudents(req, res))
+coursesRouter.get('/students', (req, res) => CoursesController.getAndCountStudents(req, res))
+coursesRouter.get('/modality', (req, res) => CoursesController.getByModalities(req, res))
 
 const studentsRouter = createRoute('/v1/students')
 studentsRouter.get('/date', validateStudents.validateDate, (req, res) => StudentsController.getByDateStartAndEnd(req, res))
 studentsRouter.get('/status', (req, res) => StudentsController.getByStatus(req, res))
-
 
 export default router

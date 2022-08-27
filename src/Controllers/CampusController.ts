@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import CampusRepository from '../Repositories/Implementations/CampusRepository';
-import { errorInRouter, resourceCreatedSuccess, resourceDeletedSuccess, resourceUpdatedSuccess } from "../utils/utilsRequest";
+import { errorInRouter } from "../utils/utilsRequest";
 
 
 class CampusController {

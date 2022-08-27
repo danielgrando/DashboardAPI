@@ -27,5 +27,17 @@ export default class CoursesRepository implements ICoursesRepository {
             }
         })
     }
-}
 
+    async getByModalities(): Promise<any> {
+        return await prisma.courses.findMany({
+            select: {
+                name: true,
+                attribute: {
+                    select: {
+                        modality: true
+                    }
+                }
+            }
+        })
+    }
+}
