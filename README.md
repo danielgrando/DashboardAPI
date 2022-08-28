@@ -5,6 +5,7 @@
 ## A simple API to simplify the search for data on all IFPR. Like campus, courses and students.
 
 + The file updated to import is here https://dados.gov.br/dataset/alunos-ifpr
++ Data is treated to be saved from 2021 onwards because the HEROKU hosting plan free and is the maximum lines supported.
 
 ### Some routes below
 
