@@ -34,7 +34,8 @@ class CoursesController {
 
             for (const modality of ['EDUCAÇÃO PRESENCIAL', 'EDUCAÇÃO A DISTÂNCIA']) {
                 let courses = getByModalitiesResponse.filter((course: { attribute: { modality: string; }; }) => course.attribute.modality === modality)
-                courses = [...new Set(courses.map((course: { name: string; }) => course.name))]
+                // courses = [...new Set(courses.map((course: { name: string; }) => course.name))]
+                courses = courses.map((course: { name: string; }) => course.name)
 
                 if (modality === 'EDUCAÇÃO PRESENCIAL') {
                     responseByModality['EDUCAÇÃO PRESENCIAL'].courses = courses
