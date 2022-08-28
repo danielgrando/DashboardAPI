@@ -17,6 +17,7 @@ export default class CoursesRepository implements ICoursesRepository {
     }
 
     async getAndCountStudents(): Promise<any[number]> {
+        const allCourse = await prisma.courses.count()
         return await prisma.courses.findMany({
             select: {
                 name: true,
@@ -24,8 +25,14 @@ export default class CoursesRepository implements ICoursesRepository {
                     select: {
                         Students: true
                     }
+                },
+            }, orderBy: {
+                Students: {
+                    _count: 'asc'
                 }
-            }
+            },
+            take: 10,
+            skip: allCourse - 10
         })
     }
 

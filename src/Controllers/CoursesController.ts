@@ -1,11 +1,6 @@
 import { Request, Response } from 'express'
 import CoursesRepository from '../Repositories/Implementations/CoursesRepository';
 import { errorInRouter } from "../utils/utilsRequest";
-
-interface CourseWithMoreStudents {
-    name?: string
-}
-
 interface Students {
     Students: number
 }
@@ -17,14 +12,10 @@ class CoursesController {
     async getAndCountStudents(req: Request, res: Response): Promise<any[number]> {
         try {
             const coursesRepository = new CoursesRepository()
+
             const getCoursesCountStudentsResponse: ResponseCourseStudents[] = await coursesRepository.getAndCountStudents()
 
-            const courseWithMoreStudents: CourseWithMoreStudents = {}
-
-            const maxStudents = getCoursesCountStudentsResponse.reduce(function (prev: any, current: any) {
-                return prev._count.Students > current._count.Students ? prev : current;
-            });
-            courseWithMoreStudents.name = maxStudents.name
+            const courseWithMoreStudents = getCoursesCountStudentsResponse[getCoursesCountStudentsResponse.length - 1].name
 
             return res.json({ coursesWithStudents: getCoursesCountStudentsResponse, courseWithMoreStudents })
         } catch (error) {

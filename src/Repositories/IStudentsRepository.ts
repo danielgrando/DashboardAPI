@@ -5,4 +5,6 @@ export interface IStudentsRepository {
     getByDateStartAndEnd(start: string, end: string): Promise<any[]>
     getByStatus(status: string): Promise<any[]>
     getByCampus(): Promise<any[]>
+    getAllEnrollmentsByDate(): Promise<any[]>
+    getEnrollmentsByDate(date: any): Promise<any[]>
 }

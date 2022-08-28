@@ -2,9 +2,6 @@ import { Request, Response } from 'express'
 import CampusRepository from '../Repositories/Implementations/CampusRepository';
 import { errorInRouter } from "../utils/utilsRequest";
 
-interface CampusWithMoreCourses {
-    name?: string
-}
 interface Courses {
     courses: number
 }
@@ -19,14 +16,13 @@ class CampusController {
             const campusRepository = new CampusRepository()
             const getCampusCountCoursesResponse: ResponseCampusCourse[] = await campusRepository.getCoursesFromCampus()
 
-            const campusWithMoreCourses: CampusWithMoreCourses = {}
-
-            const maxCourses = getCampusCountCoursesResponse.reduce(function (prev: any, current: any) {
-                return prev._count.courses > current._count.courses ? prev : current;
+            const campusWithMoreCoursesSorted = getCampusCountCoursesResponse.sort((prev, current) => {
+                return prev._count.courses - current._count.courses;
             });
-            campusWithMoreCourses.name = maxCourses.name
 
-            return res.json({ campusWithCourses: getCampusCountCoursesResponse, campusWithMoreCourses })
+            const campusWithMoreCourses = campusWithMoreCoursesSorted[campusWithMoreCoursesSorted.length - 1].name
+
+            return res.json({ campusWithCourses: campusWithMoreCoursesSorted, campusWithMoreCourses })
         } catch (error) {
             errorInRouter(req, res, error)
         }

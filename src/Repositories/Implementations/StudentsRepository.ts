@@ -43,4 +43,23 @@ export default class StudentsRepository implements IStudentsRepository {
             }
         })
     }
+
+    async getAllEnrollmentsByDate(): Promise<any> {
+        return await prisma.students.findMany({
+            distinct: ['start']
+        })
+    }
+
+    async getEnrollmentsByDate(date: any): Promise<any> {
+        const dateStart = date.split("-")
+        return await prisma.students.count({
+            where: {
+                start: {
+                    gte: new Date(dateStart[0] + "/" + dateStart[1] + "/" + "01"),
+                    lt: new Date(dateStart[0] + "/" + dateStart[1] + "/" + "31")
+                },
+                status: "EM_CURSO"
+            }
+        })
+    }
 }
