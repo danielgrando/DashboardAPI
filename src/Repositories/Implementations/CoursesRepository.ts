@@ -18,7 +18,8 @@ export default class CoursesRepository implements ICoursesRepository {
 
     async getAndCountStudents(): Promise<any[number]> {
         return await prisma.courses.findMany({
-            include: {
+            select: {
+                name: true,
                 _count: {
                     select: {
                         Students: true

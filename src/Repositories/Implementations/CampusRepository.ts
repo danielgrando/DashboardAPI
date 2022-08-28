@@ -18,9 +18,14 @@ export default class CampusRepository implements ICampusRepository {
         return await prisma.campus.count()
     }
 
+    async getAll(): Promise<any[]> {
+        return await prisma.campus.findMany()
+    }
+
     async getCoursesFromCampus(): Promise<any> {
         return await prisma.campus.findMany({
-            include: {
+            select: {
+                name: true,
                 _count: {
                     select: {
                         courses: true
@@ -29,6 +34,4 @@ export default class CampusRepository implements ICampusRepository {
             }
         })
     }
-
 }
-

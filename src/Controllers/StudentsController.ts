@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import CampusRepository from '../Repositories/Implementations/CampusRepository';
 import StudentsRepository from '../Repositories/Implementations/StudentsRepository';
 import { errorInRouter } from "../utils/utilsRequest";
 
@@ -43,6 +44,32 @@ class StudentsController {
             }
 
             return res.json(responseByStatus)
+        } catch (error) {
+            errorInRouter(req, res, error)
+        }
+    }
+
+    async getByCampus(req: Request, res: Response): Promise<any[number]> {
+        try {
+            const studentsRepository = new StudentsRepository()
+            const campusRepository = new CampusRepository()
+
+
+            const allCampusResponse = await campusRepository.getAll()
+            const studentsByCampusResponse = await studentsRepository.getByCampus()
+
+            const studentsByCampus: any = {}
+
+            for (const campus of allCampusResponse) {
+                const { id } = campus
+
+                const students = studentsByCampusResponse.filter((student: { courses: { campus: { id: any; }; }; }) =>
+                    student.courses.campus.id === id)
+
+                studentsByCampus[campus.name] = students.length
+            }
+
+            return res.json(studentsByCampus)
         } catch (error) {
             errorInRouter(req, res, error)
         }

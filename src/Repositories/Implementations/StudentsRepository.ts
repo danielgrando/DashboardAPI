@@ -31,5 +31,16 @@ export default class StudentsRepository implements IStudentsRepository {
     async getByStatus(status: string): Promise<any> {
         return await prisma.students.count({ where: { status } })
     }
-}
 
+    async getByCampus(): Promise<any> {
+        return await prisma.students.findMany({
+            include: {
+                courses: {
+                    include: {
+                        campus: true
+                    }
+                }
+            }
+        })
+    }
+}

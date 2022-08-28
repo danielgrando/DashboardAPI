@@ -6,4 +6,5 @@ export interface ICampusRepository {
     findOne(campus: string): Promise<any[]>
     getCountAll(): Promise<any[]>
     getCoursesFromCampus(): Promise<any[]>
+    getAll(): Promise<any[]>
 }
