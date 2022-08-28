@@ -1,4 +1,4 @@
-# 🚀 DashboardAPI IFPR
+# 📊 DashboardAPI IFPR
 
 > Status: Developing... ⚠️
 
