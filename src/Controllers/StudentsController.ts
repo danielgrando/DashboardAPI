@@ -54,7 +54,6 @@ class StudentsController {
             const studentsRepository = new StudentsRepository()
             const campusRepository = new CampusRepository()
 
-
             const allCampusResponse = await campusRepository.getAll()
             const studentsByCampusResponse = await studentsRepository.getByCampus()
 
@@ -63,7 +62,7 @@ class StudentsController {
             for (const campus of allCampusResponse) {
                 const { id } = campus
 
-                const students = studentsByCampusResponse.filter((student: { courses: { campus: { id: any; }; }; }) =>
+                const students = studentsByCampusResponse.filter((student: { courses: { campus: { id: string; }; }; }) =>
                     student.courses.campus.id === id)
 
                 studentsByCampus[campus.name] = students.length
@@ -75,6 +74,5 @@ class StudentsController {
         }
     }
 }
-
 
 export default new StudentsController()
