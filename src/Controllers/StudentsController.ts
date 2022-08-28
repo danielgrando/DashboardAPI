@@ -68,7 +68,17 @@ class StudentsController {
                 studentsByCampus[campus.name] = students.length
             }
 
-            return res.json(studentsByCampus)
+            const campusWithMoreStudents: any = {}
+
+            let quantity: number = 0
+            for (const [campus, quantityStudents] of Object.entries(studentsByCampus) as any) {
+                if (<any>quantityStudents > quantity) {
+                    quantity = quantityStudents
+                    campusWithMoreStudents.name = campus
+                }
+            }
+
+            return res.json({ studentsByCampus, campusWithMoreStudents })
         } catch (error) {
             errorInRouter(req, res, error)
         }
@@ -76,3 +86,4 @@ class StudentsController {
 }
 
 export default new StudentsController()
+// quantidade de matriculas dado status para data
