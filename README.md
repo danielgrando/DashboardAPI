@@ -6,7 +6,7 @@
 
 + The file updated to import is here: https://dados.gov.br/dataset/alunos-ifpr
 + The application is hosted at: https://ifprdashboard.herokuapp.com/
-+ **Data is treated to be saved from 2021 onwards because the HEROKU hosting plan free and is the maximum lines supported.**
++ ⚠️ **Data is treated to be saved from 2021 onwards because the HEROKU hosting plan free and is the maximum lines supported.**
 
 ### Some routes below
 
