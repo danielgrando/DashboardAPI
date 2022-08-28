@@ -12,7 +12,7 @@
 
 + **POST** -> (/v1) -> Send file with csv format and multipartformdata configuration, file = aluno-matriculas-e-cursos.csv
 + **GET** -> (/v1) -> To get All counts about resources (campus, courses and students)
-+ **GET** -> (/v1/courses/campus) -> To get how many courses is present in all campus
++ **GET** -> (/v1/campus/courses) -> To get how many courses is present in all campus
 + **GET** -> (/v1/courses/students) -> To get how many students is present in all courses
 + **GET** -> (/v1/courses/modality) -> To get how many courses there are in the face-to-face and EAD model, and which one is present in each.
 + **GET** -> (/v1/students/date?start=X&end=Y) -> To get how many students by date start and expected end of course
