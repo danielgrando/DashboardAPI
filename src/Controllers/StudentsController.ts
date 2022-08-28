@@ -54,7 +54,7 @@ class StudentsController {
                 }
             }
 
-            return res.json({ responseByStatus, entranceAndExit })
+            return res.json({ enrollmentsByStatus: responseByStatus, entranceAndExit })
         } catch (error) {
             errorInRouter(req, res, error)
         }
