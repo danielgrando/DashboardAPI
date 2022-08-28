@@ -1,6 +1,6 @@
 # 📈 DashboardAPI IFPR
 
-> Status: Developing... ⚠️
+> Status: Done.✔️
 
 ## A simple API to simplify the search for data on all IFPR. Like campus, courses and students.
 
