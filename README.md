@@ -19,6 +19,7 @@
 + **GET** -> (/v1/students/date?start=X&end=Y) -> To get how many students by date start and expected end of course.
 + **GET** -> (/v1/students/status) -> To get how many students by status of matriculation and the entrance x exits.
 + **GET** -> (/v1/students/campus) -> To get how many students by campus and the campus with more students.
++ **GET** -> (/v1/students/enrollments-date) -> To get how many students by enrollments dates.
 
 ## How to run the application:
 
