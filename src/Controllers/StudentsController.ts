@@ -38,12 +38,23 @@ class StudentsController {
                 reprovada: 0,
                 abandono: 0
             }
+
+            const entranceAndExit: any = {
+                entrance: 0,
+                exit: 0,
+            }
             for (const status of ['em_curso', 'transf_ext', 'desligado', 'concluída', 'reprovada', 'abandono']) {
                 const getStudentsByStatus = await studentsRepository.getByStatus(status.toUpperCase())
                 responseByStatus[status] = getStudentsByStatus
+
+                if (status !== 'em_curso') {
+                    entranceAndExit.exit += getStudentsByStatus
+                } else {
+                    entranceAndExit.entrance += getStudentsByStatus
+                }
             }
 
-            return res.json(responseByStatus)
+            return res.json({ responseByStatus, entranceAndExit })
         } catch (error) {
             errorInRouter(req, res, error)
         }
