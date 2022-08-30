@@ -3,8 +3,21 @@ import CampusRepository from '../Repositories/Implementations/CampusRepository';
 import StudentsRepository from '../Repositories/Implementations/StudentsRepository';
 import { errorInRouter } from "../utils/utilsRequest";
 
+interface IResponseByStatus {
+    [key: string]: number,
+}
+interface IEntranceAndExit {
+    [key: string]: number,
+}
+interface IStudentsByCampus {
+    [key: string]: number,
+}
+interface ICampusWithMoreStudents {
+    name?: string
+}
+
 class StudentsController {
-    async getByDateStartAndEnd(req: Request, res: Response): Promise<any[number]> {
+    async getByDateStartAndEnd(req: Request, res: Response): Promise<any> {
         try {
             const studentsRepository = new StudentsRepository()
 
@@ -26,11 +39,11 @@ class StudentsController {
         }
     }
 
-    async getByStatus(req: Request, res: Response): Promise<any[number]> {
+    async getByStatus(req: Request, res: Response): Promise<any> {
         try {
             const studentsRepository = new StudentsRepository()
 
-            const responseByStatus: any = {
+            const responseByStatus: IResponseByStatus = {
                 em_curso: 0,
                 transf_ext: 0,
                 desligado: 0,
@@ -39,7 +52,7 @@ class StudentsController {
                 abandono: 0
             }
 
-            const entranceAndExit: any = {
+            const entranceAndExit: IEntranceAndExit = {
                 entrance: 0,
                 exit: 0,
             }
@@ -60,7 +73,7 @@ class StudentsController {
         }
     }
 
-    async getByCampus(req: Request, res: Response): Promise<any[number]> {
+    async getByCampus(req: Request, res: Response): Promise<any> {
         try {
             const studentsRepository = new StudentsRepository()
             const campusRepository = new CampusRepository()
@@ -68,7 +81,7 @@ class StudentsController {
             const allCampusResponse = await campusRepository.getAll()
             const studentsByCampusResponse = await studentsRepository.getByCampus()
 
-            const studentsByCampus: any = {}
+            const studentsByCampus: IStudentsByCampus = {}
 
             for (const campus of allCampusResponse) {
                 const { id } = campus
@@ -79,13 +92,13 @@ class StudentsController {
                 studentsByCampus[campus.name] = students.length
             }
 
-            const studentsByCampusSorted = Object.fromEntries(
-                Object.entries(studentsByCampus).sort(([, prev]: any, [, current]: any) => prev - current)
+            const studentsByCampusSorted: IStudentsByCampus = Object.fromEntries(
+                Object.entries(studentsByCampus).sort(([, prev], [, current]) => prev - current)
             );
 
-            const campusWithMoreStudents: any = {}
+            const campusWithMoreStudents: ICampusWithMoreStudents = {}
             let quantity: number = 0
-            for (const [campus, quantityStudents] of Object.entries(studentsByCampus) as any) {
+            for (const [campus, quantityStudents] of Object.entries(studentsByCampus)) {
                 if (<any>quantityStudents > quantity) {
                     quantity = quantityStudents
                     campusWithMoreStudents.name = campus
@@ -98,13 +111,13 @@ class StudentsController {
         }
     }
 
-    async getEnrollmentsByDate(req: Request, res: Response): Promise<any[number]> {
+    async getEnrollmentsByDate(req: Request, res: Response): Promise<any> {
         try {
             const studentsRepository = new StudentsRepository()
 
             const getEnrollmentsByDateResponse = await studentsRepository.getAllEnrollmentsByDate()
 
-            const getDatesDistinct = getEnrollmentsByDateResponse.map((date: { start: any; }) => date.start)
+            const getDatesDistinct = getEnrollmentsByDateResponse.map((date: { start: Date; }) => date.start)
 
             const arrayDate: string[] = []
 

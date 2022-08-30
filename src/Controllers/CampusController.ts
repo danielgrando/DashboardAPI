@@ -9,18 +9,17 @@ interface ResponseCampusCourse {
     name: string
     _count: Courses
 }
-
 class CampusController {
-    async getCampusCountCourses(req: Request, res: Response): Promise<any[number]> {
+    async getCampusCountCourses(req: Request, res: Response): Promise<any> {
         try {
             const campusRepository = new CampusRepository()
+
             const getCampusCountCoursesResponse: ResponseCampusCourse[] = await campusRepository.getCoursesFromCampus()
 
-            const campusWithMoreCoursesSorted = getCampusCountCoursesResponse.sort((prev, current) => {
+            const campusWithMoreCoursesSorted: ResponseCampusCourse[] = getCampusCountCoursesResponse.sort((prev, current) => {
                 return prev._count.courses - current._count.courses;
             });
-
-            const campusWithMoreCourses = campusWithMoreCoursesSorted[campusWithMoreCoursesSorted.length - 1].name
+            const campusWithMoreCourses: string = campusWithMoreCoursesSorted[campusWithMoreCoursesSorted.length - 1].name
 
             return res.json({ campusWithCourses: campusWithMoreCoursesSorted, campusWithMoreCourses })
         } catch (error) {

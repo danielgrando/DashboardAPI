@@ -37,9 +37,9 @@ class DashboardController {
             const coursesRepository = new CoursesRepository()
             const studentsRepository = new StudentsRepository()
 
-            const getCampusResponse = await campusRepository.getCountAll()
-            const getCoursesResponse = await coursesRepository.getCountAll()
-            const getStudentsResponse = await studentsRepository.getCountAll()
+            const getCampusResponse: number = await campusRepository.getCountAll()
+            const getCoursesResponse: number = await coursesRepository.getCountAll()
+            const getStudentsResponse: number = await studentsRepository.getCountAll()
 
             return res.json({ allCampus: getCampusResponse, allCourses: getCoursesResponse, allStudents: getStudentsResponse })
         } catch (error) {
@@ -71,7 +71,7 @@ class DashboardController {
 
             const allCampus = await campusRepository.index(campus)
             for (const itemCampus of campus) {
-                const campusExists = allCampus?.find((item: { name: any; campus: any; }) => item.name === itemCampus)
+                const campusExists = allCampus?.find((item: { name: string; campus: string; }) => item.name === itemCampus)
                 if (!campusExists) {
                     await campusRepository.save(itemCampus)
                 }
@@ -102,7 +102,7 @@ class DashboardController {
             })
 
             for (const attribute of attributes) {
-                const attributeExists = await attributesRepository.index(attribute)
+                const attributeExists = await attributesRepository.show(attribute)
 
                 if (!attributeExists) {
                     await attributesRepository.save(attribute)
@@ -169,7 +169,7 @@ class DashboardController {
             const allStudents = await studentsRepository.indexByNames(students)
 
             for (const student of data) {
-                const findStudent = allStudents.find((studentSaved: { name: any; }) => studentSaved.name === student.aluno)
+                const findStudent = allStudents.find((studentSaved: { name: string; }) => studentSaved.name === student.aluno)
                 if (!findStudent) {
                     const getCourse = await coursesRepository.index({ name: student.nomeCurso, attributeId: student.attributeId })
 

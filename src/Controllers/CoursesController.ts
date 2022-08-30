@@ -8,14 +8,22 @@ interface ResponseCourseStudents {
     name: string
     _count: Students
 }
+
+interface ResponseByModality {
+    [key: string]: {
+        quantity: number,
+        courses: string[]
+    }
+}
+
 class CoursesController {
-    async getAndCountStudents(req: Request, res: Response): Promise<any[number]> {
+    async getAndCountStudents(req: Request, res: Response): Promise<any> {
         try {
             const coursesRepository = new CoursesRepository()
 
             const getCoursesCountStudentsResponse: ResponseCourseStudents[] = await coursesRepository.getAndCountStudents()
 
-            const courseWithMoreStudents = getCoursesCountStudentsResponse[getCoursesCountStudentsResponse.length - 1].name
+            const courseWithMoreStudents: string = getCoursesCountStudentsResponse[getCoursesCountStudentsResponse.length - 1].name
 
             return res.json({ coursesWithStudents: getCoursesCountStudentsResponse, courseWithMoreStudents })
         } catch (error) {
@@ -23,11 +31,11 @@ class CoursesController {
         }
     }
 
-    async getByModalities(req: Request, res: Response): Promise<any[number]> {
+    async getByModalities(req: Request, res: Response): Promise<any> {
         try {
             const coursesRepository = new CoursesRepository()
 
-            const responseByModality: any = {
+            const responseByModality: ResponseByModality = {
                 "EDUCAÇÃO PRESENCIAL": {
                     quantity: 0,
                     courses: []
